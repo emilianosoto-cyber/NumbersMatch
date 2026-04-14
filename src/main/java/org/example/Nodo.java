@@ -27,15 +27,3 @@ public class Nodo<T> {
         this.sig = sig;
     }
 }
-    public void setInfo(T info) {
-        this.info = info;
-    }
-
-    public Nodo<T> getSig() {
-        return sig;
-    }
-
-    public void setSig(Nodo<T> sig) {
-        this.sig = sig;
-    }
-}

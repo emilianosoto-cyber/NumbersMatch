@@ -42,30 +42,6 @@ public class ListaSimple<T> {
         return dato;
     }
 
-    public T eliminarFinal() {
-        if (inicio == null) {
-            return null;
-        }
-        if (inicio.getSig() == null) {
-            T dato = inicio.getInfo();
-            inicio = null;
-            tamanio--;
-            return dato;
-        }
-        Nodo<T> actual = inicio;
-        Nodo<T> anterior = null;
-
-        while (actual.getSig() != null) {
-            anterior = actual;
-            actual = actual.getSig();
-        }
-
-        T dato = actual.getInfo();
-        anterior.setSig(null);
-        tamanio--;
-        return dato;
-    }
-
     public T obtener(int indice) {
         if (indice < 0 || indice >= tamanio) {
             return null;
@@ -118,16 +94,5 @@ public class ListaSimple<T> {
             return null;
         }
         return inicio.getInfo();
-    }
-
-    public T peekFinal() {
-        if (inicio == null) {
-            return null;
-        }
-        Nodo<T> actual = inicio;
-        while (actual.getSig() != null) {
-            actual = actual.getSig();
-        }
-        return actual.getInfo();
     }
 }
