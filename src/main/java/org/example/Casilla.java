@@ -1,8 +1,6 @@
 package org.example;
 
-/**
- * Representa una casilla del tablero.
- */
+// Representa una casilla del tablero.
 public class Casilla implements Comparable<Casilla> {
     private int fila;
     private int columna;
@@ -22,8 +20,16 @@ public class Casilla implements Comparable<Casilla> {
         return fila;
     }
 
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
     public int getColumna() {
         return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
     }
 
     public int getValor() {
@@ -46,10 +52,7 @@ public class Casilla implements Comparable<Casilla> {
         this.seleccionada = seleccionada;
     }
 
-    /**
-     * Dos casillas concuerdan si son iguales
-     * o si su suma es 10.
-     */
+    // Dos casillas concuerdan si son iguales o si su suma es 10.
     @Override
     public int compareTo(Casilla otra) {
         if (otra == null) {
