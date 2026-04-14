@@ -2,14 +2,13 @@ package org.example;
 
 import java.util.Random;
 
-/**
- * Representa el tablero del juego.
- * Las casillas se almacenan en forma lineal.
- */
+// Representa el tablero del juego.
+// Las casillas se almacenan en forma lineal usando lista simple.
 public class Tablero {
     private int filas;
     private int columnas;
     private ListaSimple<Casilla> casillas;
+    private static final int MAX_FILAS = 18;
 
     public Tablero(int filas, int columnas) {
         this.filas = filas;
@@ -28,6 +27,9 @@ public class Tablero {
     }
 
     public Casilla getCasilla(int fila, int columna) {
+        if (fila < 0 || fila >= filas || columna < 0 || columna >= columnas) {
+            return null;
+        }
         int indice = fila * columnas + columna;
         return casillas.obtener(indice);
     }
@@ -48,11 +50,21 @@ public class Tablero {
         return casillas.tamanio();
     }
 
-    /**
-     * Agrega al final del tablero las casillas activas.
-     * Se acomodan en nuevos renglones.
-     */
-    public void agregarNumerosActivosAlFinal() {
+    public int getMaxFilas() {
+        return MAX_FILAS;
+    }
+
+    public boolean puedeCrecer() {
+        return filas < MAX_FILAS;
+    }
+
+    // Agrega al final del tablero las casillas activas actuales.
+    // Si el tablero ya está al límite, no agrega más.
+    public boolean agregarNumerosActivosAlFinal() {
+        if (!puedeCrecer()) {
+            return false;
+        }
+
         ListaSimple<Integer> valores = new ListaSimple<>();
 
         for (int i = 0; i < casillas.tamanio(); i++) {
@@ -63,32 +75,41 @@ public class Tablero {
         }
 
         if (valores.estaVacia()) {
-            return;
+            return false;
         }
 
-        int columna = 0;
-        int filaNueva = filas;
+        int espaciosDisponibles = (MAX_FILAS - filas) * columnas;
+        int totalAInsertar = valores.tamanio();
 
-        for (int i = 0; i < valores.tamanio(); i++) {
+        if (totalAInsertar > espaciosDisponibles) {
+            totalAInsertar = espaciosDisponibles;
+        }
+
+        int filaNueva = filas;
+        int columnaNueva = 0;
+
+        for (int i = 0; i < totalAInsertar; i++) {
             int valor = valores.obtener(i);
-            casillas.insertarFinal(new Casilla(filaNueva, columna, valor));
-            columna++;
-            if (columna == columnas) {
-                columna = 0;
+            casillas.insertarFinal(new Casilla(filaNueva, columnaNueva, valor));
+            columnaNueva++;
+            if (columnaNueva == columnas) {
+                columnaNueva = 0;
                 filaNueva++;
             }
         }
 
-        if (columna != 0) {
-            while (columna < columnas) {
-                Casilla vacia = new Casilla(filaNueva, columna, 0);
+        // Si quedó un renglón incompleto, se rellena con casillas inactivas.
+        if (columnaNueva != 0 && filaNueva < MAX_FILAS) {
+            while (columnaNueva < columnas) {
+                Casilla vacia = new Casilla(filaNueva, columnaNueva, 0);
                 vacia.setActiva(false);
                 casillas.insertarFinal(vacia);
-                columna++;
+                columnaNueva++;
             }
             filaNueva++;
         }
 
         filas = filaNueva;
+        return true;
     }
 }
