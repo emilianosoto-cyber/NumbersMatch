@@ -1,9 +1,7 @@
 package org.example;
 
-/**
- * Contiene toda la lógica del juego.
- * No depende de JavaFX.
- */
+// Contiene toda la lógica del juego.
+// No depende de JavaFX.
 public class JuegoNumberMatch {
     private Tablero tablero;
     private ListaSimple<Movimiento> historial;
@@ -63,7 +61,8 @@ public class JuegoNumberMatch {
                 segunda,
                 puntos,
                 concordanciasEncontradas,
-                concordanciasPendientes
+                concordanciasPendientes,
+                pistasRestantes
         ));
 
         primera.setActiva(false);
@@ -77,9 +76,7 @@ public class JuegoNumberMatch {
         return true;
     }
 
-    /**
-     * Determina si dos casillas forman un movimiento permitido.
-     */
+    // Determina si dos casillas forman un movimiento permitido.
     public boolean esMovimientoValido(Casilla a, Casilla b) {
         if (a == null || b == null) {
             return false;
@@ -146,10 +143,8 @@ public class JuegoNumberMatch {
         return true;
     }
 
-    /**
-     * Permite unir casillas siguiendo el orden lineal del tablero.
-     * Esto cubre el final de un renglón con el inicio del siguiente.
-     */
+    // Permite unir casillas siguiendo el orden lineal del tablero.
+    // Esto cubre el final de un renglón con el inicio del siguiente.
     private boolean caminoLibreLineal(Casilla a, Casilla b) {
         int indiceA = getIndiceLineal(a);
         int indiceB = getIndiceLineal(b);
@@ -210,12 +205,14 @@ public class JuegoNumberMatch {
         puntos = movimiento.getPuntosAntes();
         concordanciasEncontradas = movimiento.getEncontradasAntes();
         concordanciasPendientes = movimiento.getPendientesAntes();
+        pistasRestantes = movimiento.getPistasAntes();
         return true;
     }
 
-    public void agregarNumeros() {
-        tablero.agregarNumerosActivosAlFinal();
+    public boolean agregarNumeros() {
+        boolean agregado = tablero.agregarNumerosActivosAlFinal();
         concordanciasPendientes = calcularConcordanciasPendientes();
+        return agregado;
     }
 
     public boolean hayMovimientosDisponibles() {
