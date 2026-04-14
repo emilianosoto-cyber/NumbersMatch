@@ -1,9 +1,7 @@
 package org.example;
 
-/**
- * Implementación de lista simple genérica.
- * Se usa como estructura principal del proyecto.
- */
+// Implementación de lista simple genérica.
+// Se usa como estructura principal del proyecto.
 public class ListaSimple<T> {
     private Nodo<T> inicio;
     private int tamanio;
