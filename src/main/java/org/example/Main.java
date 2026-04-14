@@ -3,9 +3,7 @@ package org.example;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-/**
- * Punto de entrada del programa.
- */
+// Punto de entrada del programa.
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
