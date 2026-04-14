@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -15,13 +16,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.Optional;
 
-/**
- * Interfaz gráfica del juego.
- * Aquí solo se pinta y se atienden eventos.
- */
+// Interfaz gráfica del juego.
+// Aquí solo se pinta y se atienden eventos.
 public class VistaNumberMatch {
     private JuegoNumberMatch juego;
     private GridPane panelTablero;
+    private ScrollPane contenedorTablero;
     private Label lblPuntos;
     private Label lblEncontradas;
     private Label lblPendientes;
@@ -80,6 +80,12 @@ public class VistaNumberMatch {
         panelTablero.setHgap(0);
         panelTablero.setVgap(0);
 
+        contenedorTablero = new ScrollPane(panelTablero);
+        contenedorTablero.setFitToWidth(true);
+        contenedorTablero.setPannable(true);
+        contenedorTablero.setStyle("-fx-background: white; -fx-background-color: white;");
+        contenedorTablero.setPrefViewportHeight(560);
+
         Button btnAgregar = new Button("+");
         btnAgregar.setStyle("-fx-background-color: #1e88e5; -fx-text-fill: white; -fx-font-size: 34px; -fx-font-weight: bold; -fx-background-radius: 50%; -fx-min-width: 70px; -fx-min-height: 70px; -fx-max-width: 70px; -fx-max-height: 70px;");
 
@@ -90,7 +96,10 @@ public class VistaNumberMatch {
         btnDeshacer.setStyle("-fx-background-color: #ff9800; -fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold; -fx-background-radius: 50%; -fx-min-width: 62px; -fx-min-height: 62px; -fx-max-width: 62px; -fx-max-height: 62px;");
 
         btnAgregar.setOnAction(e -> {
-            juego.agregarNumeros();
+            boolean agregado = juego.agregarNumeros();
+            if (!agregado) {
+                mostrarMensaje("Tablero lleno", "Ya no se pueden agregar más filas. Límite: " + juego.getTablero().getMaxFilas() + " filas.");
+            }
             reconstruirTablero();
             actualizarVista();
         });
@@ -109,7 +118,7 @@ public class VistaNumberMatch {
         panelInferior.setPadding(new Insets(25, 0, 10, 0));
 
         raiz.setTop(panelSuperior);
-        raiz.setCenter(panelTablero);
+        raiz.setCenter(contenedorTablero);
         raiz.setBottom(panelInferior);
 
         reconstruirTablero();
@@ -156,6 +165,8 @@ public class VistaNumberMatch {
             for (int columna = 0; columna < columnas; columna++) {
                 Button boton = new Button();
                 boton.setPrefSize(48, 48);
+                boton.setMinSize(48, 48);
+                boton.setMaxSize(48, 48);
                 boton.setStyle("-fx-background-color: white; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 18px; -fx-text-fill: black;");
 
                 final int f = fila;
