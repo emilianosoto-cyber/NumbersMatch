@@ -37,7 +37,7 @@ public class VistaNumberMatch {
 
         BorderPane raiz = new BorderPane();
         raiz.setStyle("-fx-background-color: white;");
-        raiz.setPadding(new Insets(20));
+        raiz.setPadding(new Insets(15));
 
         Button btnCerrar = new Button("←");
         btnCerrar.setStyle("-fx-background-color: #5f6368; -fx-text-fill: white; -fx-font-size: 20px; -fx-background-radius: 50%; -fx-min-width: 42px; -fx-min-height: 42px; -fx-max-width: 42px; -fx-max-height: 42px;");
@@ -58,12 +58,10 @@ public class VistaNumberMatch {
         lblPistas = new Label("Pistas: 5");
         lblPistas.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #4f5b62;");
 
-        VBox panelInfo = new VBox(4,
-                new HBox(6, iconoTrofeo, lblPuntos),
-                lblEncontradas,
-                lblPendientes,
-                lblPistas
-        );
+        HBox filaPuntos = new HBox(6, iconoTrofeo, lblPuntos);
+        filaPuntos.setAlignment(Pos.CENTER);
+
+        VBox panelInfo = new VBox(6, filaPuntos, lblEncontradas, lblPendientes, lblPistas);
         panelInfo.setAlignment(Pos.CENTER);
 
         Region relleno = new Region();
@@ -73,7 +71,7 @@ public class VistaNumberMatch {
         panelSuperior.setLeft(btnCerrar);
         panelSuperior.setCenter(panelInfo);
         panelSuperior.setRight(relleno);
-        panelSuperior.setPadding(new Insets(0, 0, 20, 0));
+        panelSuperior.setPadding(new Insets(0, 0, 15, 0));
 
         panelTablero = new GridPane();
         panelTablero.setAlignment(Pos.TOP_CENTER);
@@ -84,7 +82,9 @@ public class VistaNumberMatch {
         contenedorTablero.setFitToWidth(true);
         contenedorTablero.setPannable(true);
         contenedorTablero.setStyle("-fx-background: white; -fx-background-color: white;");
-        contenedorTablero.setPrefViewportHeight(560);
+        contenedorTablero.setPrefViewportHeight(330);
+        contenedorTablero.setMinViewportHeight(330);
+        contenedorTablero.setMaxHeight(360);
 
         Button btnAgregar = new Button("+");
         btnAgregar.setStyle("-fx-background-color: #1e88e5; -fx-text-fill: white; -fx-font-size: 34px; -fx-font-weight: bold; -fx-background-radius: 50%; -fx-min-width: 70px; -fx-min-height: 70px; -fx-max-width: 70px; -fx-max-height: 70px;");
@@ -115,18 +115,22 @@ public class VistaNumberMatch {
 
         HBox panelInferior = new HBox(30, btnAgregar, btnPista, btnDeshacer);
         panelInferior.setAlignment(Pos.CENTER);
-        panelInferior.setPadding(new Insets(25, 0, 10, 0));
+        panelInferior.setPadding(new Insets(15, 0, 10, 0));
+
+        VBox centro = new VBox(15, contenedorTablero, panelInferior);
+        centro.setAlignment(Pos.TOP_CENTER);
 
         raiz.setTop(panelSuperior);
-        raiz.setCenter(contenedorTablero);
-        raiz.setBottom(panelInferior);
+        raiz.setCenter(centro);
 
         reconstruirTablero();
         actualizarVista();
 
-        Scene escena = new Scene(raiz, 620, 860);
+        Scene escena = new Scene(raiz, 760, 620);
         stage.setTitle("Number Match");
         stage.setScene(escena);
+        stage.setMinWidth(720);
+        stage.setMinHeight(620);
         stage.show();
     }
 
@@ -164,10 +168,10 @@ public class VistaNumberMatch {
         for (int fila = 0; fila < filas; fila++) {
             for (int columna = 0; columna < columnas; columna++) {
                 Button boton = new Button();
-                boton.setPrefSize(48, 48);
-                boton.setMinSize(48, 48);
-                boton.setMaxSize(48, 48);
-                boton.setStyle("-fx-background-color: white; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 18px; -fx-text-fill: black;");
+                boton.setPrefSize(56, 56);
+                boton.setMinSize(56, 56);
+                boton.setMaxSize(56, 56);
+                boton.setStyle("-fx-background-color: white; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 20px; -fx-text-fill: black;");
 
                 final int f = fila;
                 final int c = columna;
@@ -231,9 +235,9 @@ public class VistaNumberMatch {
         }
 
         botones[pista[0].getFila()][pista[0].getColumna()]
-                .setStyle("-fx-background-color: #42a5f5; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 18px; -fx-text-fill: white;");
+                .setStyle("-fx-background-color: #42a5f5; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 20px; -fx-text-fill: white;");
         botones[pista[1].getFila()][pista[1].getColumna()]
-                .setStyle("-fx-background-color: #42a5f5; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 18px; -fx-text-fill: white;");
+                .setStyle("-fx-background-color: #42a5f5; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 20px; -fx-text-fill: white;");
     }
 
     private void actualizarVista() {
@@ -253,9 +257,9 @@ public class VistaNumberMatch {
                     boton.setText(String.valueOf(casilla.getValor()));
 
                     if (casilla.isSeleccionada()) {
-                        boton.setStyle("-fx-background-color: #42a5f5; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 18px; -fx-text-fill: white;");
+                        boton.setStyle("-fx-background-color: #42a5f5; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 20px; -fx-text-fill: white;");
                     } else {
-                        boton.setStyle("-fx-background-color: white; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 18px; -fx-text-fill: black;");
+                        boton.setStyle("-fx-background-color: white; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 20px; -fx-text-fill: black;");
                     }
                 } else {
                     if (casilla.getValor() == 0) {
@@ -264,7 +268,7 @@ public class VistaNumberMatch {
                         boton.setText(String.valueOf(casilla.getValor()));
                     }
                     boton.setDisable(true);
-                    boton.setStyle("-fx-background-color: white; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 18px; -fx-text-fill: #d9d9d9;");
+                    boton.setStyle("-fx-background-color: white; -fx-border-color: #ebebeb; -fx-border-width: 1; -fx-font-size: 20px; -fx-text-fill: #d9d9d9;");
                 }
             }
         }
