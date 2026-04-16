@@ -55,21 +55,14 @@ public class JuegoNumberMatch {
             return false;
         }
 
-        historial.insertarInicio(new Movimiento(
-                primera,
-                segunda,
-                puntos,
-                concordanciasEncontradas,
-                concordanciasPendientes,
-                pistasRestantes
-        ));
+        historial.insertarInicio(new Movimiento(primera, segunda, puntos, concordanciasEncontradas, concordanciasPendientes, pistasRestantes));
 
         primera.setActiva(false);
         segunda.setActiva(false);
         primera.setSeleccionada(false);
         segunda.setSeleccionada(false);
 
-        puntos += 10;
+        puntos += primera.getValor() + segunda.getValor();
         concordanciasEncontradas++;
         concordanciasPendientes = calcularConcordanciasPendientes();
         return true;
@@ -142,8 +135,8 @@ public class JuegoNumberMatch {
         return true;
     }
 
-    // Permite unir casillas siguiendo el orden lineal del tablero.
-    // Esto cubre el final de un renglón con el inicio del siguiente.
+    // Une las casillas siguiendo el orden lineal del tablero.
+    // El final de un renglón con el inicio del siguiente.
     private boolean caminoLibreLineal(Casilla a, Casilla b) {
         int indiceA = getIndiceLineal(a);
         int indiceB = getIndiceLineal(b);
