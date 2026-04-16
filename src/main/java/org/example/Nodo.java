@@ -1,7 +1,7 @@
 package org.example;
 
 // Nodo simple genérico.
-// Sirve como base para la lista simple.
+// Sirve para lista simple.
 public class Nodo<T> {
     private T info;
     private Nodo<T> sig;

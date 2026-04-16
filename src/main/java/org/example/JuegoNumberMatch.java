@@ -1,7 +1,6 @@
 package org.example;
 
 // Contiene toda la lógica del juego.
-// No depende de JavaFX.
 public class JuegoNumberMatch {
     private Tablero tablero;
     private ListaSimple<Movimiento> historial;
